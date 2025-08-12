@@ -34,7 +34,7 @@ pipeline {
 pipeline {
     agent any 
     stages {
-        stage ('jayant'){
+        stage ('Buildid_Print'){
             steps {
                 echo "Jenkins job Build id is $BUILD_ID"
             }
