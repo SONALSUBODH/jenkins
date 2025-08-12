@@ -1,22 +1,25 @@
 // Declarative Pipeline
-     Pipeline {
-          agent any
-          stages  {
-            stage ('code-pull') {
-              steps {
-                echo "this is code pull stage"
-              }
+     pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building..'
             }
-             stage ('code-build') {
-              steps {
-                echo "this is code build stage"
-                 }
-             }
-             stage ('code-deploy') {
-              steps {
-                echo "this is code deploy stage"
-                }
-             }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
+            }
+        }
+    }
+}
 
                // printenv pipeline
 pipeline {
