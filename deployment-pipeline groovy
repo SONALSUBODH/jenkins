@@ -6,6 +6,11 @@ pipeline {
                 git 'https://github.com/mayurmwagh/onlinebookstore.git'
             }
         }
+        stage ('code-list'){
+            steps {
+               sh 'ls -lart'
+            }
+        }
         stage ('build'){
             steps {
                 sh 'mvn clean package'
