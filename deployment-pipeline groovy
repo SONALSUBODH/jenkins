@@ -16,15 +16,6 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
-        stage ('Copy-Artifact'){
-            steps {
-                withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws_creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                sh 'aws s3 ls'
-                sh 'aws s3 cp /var/lib/jenkins/workspace/deploy/target/onlinebookstore.war s3://demostorebuildb20/'
-                }
-            }
-        }
-        
-       
+           
     }
 }
