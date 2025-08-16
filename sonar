@@ -2,7 +2,7 @@ pipeline {
     stages {
         stage ('code-pull'){
             steps {
-                git 'https://github.com/mayurmwagh/onlinebookstore.git'
+                git 'https://github.com/mayurmwagh/student-ui.git'
             }
         }
         
@@ -13,7 +13,10 @@ pipeline {
         }
         stage ('testing'){
             steps {
-          }
+              waitForQualityGate abortPipeline: false, credentialsId: 'sonar-tokan'  
+                  sh 'mvn sonar:sonar project key=studentapp'
+        }
+
       }
    }
 }
