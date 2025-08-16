@@ -1,11 +1,11 @@
 pipeline {
+    agent any
     stages {
         stage ('code-pull'){
             steps {
-                git 'https://github.com/mayurmwagh/student-ui.git'
+                git 'https://github.com/mayurmwagh/onlinebookstore.git'
             }
         }
-        
         stage ('build'){
             steps {
                 sh 'mvn clean package'
@@ -13,18 +13,24 @@ pipeline {
         }
         stage ('testing'){
             steps {
-              withSonarQubeEnv(installationName:'sonar' , credentialsId: 'sonar-tokan'){  
-                   sh 'mvn sonar:sonar -Dsonar.projectkey=studentapp'
-                 }
-           }
-     }
+                withSonarQubeEnv(installationName:'sonar' , credentialsId: 'sonar-tokan') {
+                    sh 'mvn sonar:sonar -Dsonar.projectKey=studentapp'
+                }
+            }
+        }
         stage ('quality-gate'){
             steps {
-              timeout(1) {
-              waitForQualityGate abortPipeline: false, credentialsId: 'sonar-tokan'
-              }
-          }
-       }
-     }
-   }
+                timeout(1) {
+                waitForQualityGate abortPipeline: false, credentialsId: 'sonar-tokan'
+
+                }   
+            }
+        }
+    
+    stage ('deploy'){
+        steps{
+            deploy adapters: [tomcat9(credentialsId: 'ea2d545c-0d1c-4165-a624-28f1b6d7b95d', path: '', url: 'http://44.245.148.49:8080/')], contextPath: '/', war: '/*.war'
+        }
+    }
+    }
 }
