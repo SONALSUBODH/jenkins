@@ -19,9 +19,11 @@ pipeline {
            }
      }
         stage ('quality-gate'){
-            steps {
+            steps {timeout(1) {
                waitForQualityGate abortPipeline: false, credentialsId: 'sonar-tokan'
+              }
           }
+       }
      }
    }
 }
