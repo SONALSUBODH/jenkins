@@ -14,9 +14,14 @@ pipeline {
         stage ('testing'){
             steps {
               withSonarQubeEnv(installationName:'sonar' , credentialsId: 'sonar-tokan'){  
-                  sh 'mvn sonar:sonar -Dsonar.projectkey=studentapp'
-        
+                   sh 'mvn sonar:sonar -Dsonar.projectkey=studentapp'
+                 }
            }
      }
-  }
+        stage ('quality-gate'){
+            steps {
+               waitForQualityGate abortPipeline: false, credentialsId: 'sonar-tokan'
+          }
+     }
+   }
 }
